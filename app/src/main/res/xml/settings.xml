@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <androidx.preference.PreferenceCategory
+        android:key="font_change"
+        android:summary="Change the size of the text in the game screen"
+        android:title="Font Size">
+
+        <com.transports.rpgtext.settings_screen.CustomPreference
+            android:key="text_layout"
+            android:layout="@layout/font_text_example_layout" />
+        <androidx.preference.SeekBarPreference
+            android:key="font_size" />
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.SwitchPreference
+        android:defaultValue="true"
+        android:key="example_switch"
+        android:summary="Turn this option on or off"
+        android:title="Settings option" />
+</androidx.preference.PreferenceScreen>

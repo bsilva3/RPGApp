@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TextRPGActivity"></activity>
-        <activity android:name=".SplashScreenActivity"></activity>
+        <activity android:name=".settings_screen.SettingsActivity"></activity>
+        <activity android:name=".TextRPGActivity" />
+        <activity android:name=".SplashScreenActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -158,6 +158,7 @@ public class TextRPGActivity extends AppCompatActivity implements TypeWriterList
     }
 
     private void showButtons(){
+        hideAllChoiceButtons();
         Scene scene = this.chapterStory.getCurrentScene();
         boolean last = scene.isLast();
         if (last){
@@ -213,6 +214,7 @@ public class TextRPGActivity extends AppCompatActivity implements TypeWriterList
      * @param nChoiceIndex
      */
     private void changeScene(int nChoiceIndex){
+        hideAllChoiceButtons();
         String choiceID = choiceIDs[nChoiceIndex];
         this.chapterStory.changeScene(choiceID);
         showCurrentSceneText();

@@ -1,19 +1,15 @@
 package com.transports.rpgtext;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.transports.rpgtext.list_utils.main_menu.CustomAdapter;
 import com.transports.rpgtext.list_utils.main_menu.MainMenuItem;
-import com.transports.rpgtext.story_handle.ChapterLoader;
-import com.transports.rpgtext.story_handle.ChapterStory;
+import com.transports.rpgtext.settings_screen.SettingsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 break;
             case Constants.OPTIONS_OPT:
                 // settings option selected
+                Intent settingsInt = new Intent(this, SettingsActivity.class);
+                startActivity(settingsInt);
                 break;
         }
     }

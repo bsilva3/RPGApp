@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'in.codeshuffle:typewriterview:1.1.0'
     implementation 'com.github.Yalantis:Context-Menu.Android:1.1.4'
+    implementation 'androidx.preference:preference:1.1.0-rc01'
 
 
 }
