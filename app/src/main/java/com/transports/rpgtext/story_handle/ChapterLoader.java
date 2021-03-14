@@ -36,7 +36,7 @@ public class ChapterLoader {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        Log.d("JSON", json);
+        Log.d("JSON", json+"");
         return json;
     }
 
@@ -46,11 +46,14 @@ public class ChapterLoader {
         Gson gson = new Gson();
         try {
             chapterFiles = activity.getAssets().list("");
+
             for (String file : chapterFiles){
-                String storyStr = loadChapterFromFile(activity, file);
-                ChapterDescription chapterDescription = gson.fromJson(storyStr, ChapterDescription.class);
-                chapterDescription.setFileName(file);
-                chapters.add(chapterDescription);
+                if (file.endsWith(".json")) {//maintain only assents ending with .json (chapters) //Todo: filter by name also? "ChapterXX.json"
+                    String storyStr = loadChapterFromFile(activity, file);
+                    ChapterDescription chapterDescription = gson.fromJson(storyStr, ChapterDescription.class);
+                    chapterDescription.setFileName(file);
+                    chapters.add(chapterDescription);
+                }
             }
         } catch (IOException ex) {
             ex.printStackTrace();

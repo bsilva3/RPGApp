@@ -47,7 +47,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mCtx, myList.getHeading()+"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mCtx, myList.getHeading()+"", Toast.LENGTH_SHORT).show();
                 itemListener.recyclerViewListClicked(myList.getHeading());
             }
         });

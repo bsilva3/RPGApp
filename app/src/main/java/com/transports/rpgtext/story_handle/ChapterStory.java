@@ -40,6 +40,7 @@ public class ChapterStory {
         return scenes.get(sceneID);
     }
 
+
     public String getChapterTitle() {
         return chapterTitle;
     }

@@ -5,25 +5,41 @@
     android:layout_height="match_parent"
     tools:context=".ChapterSelectionFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/list_chapters"
-            android:layout_width="512dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_key"
-            android:fadeScrollbars="false"
-            >
-        </ListView>
-        <TextView
-            android:id="@+id/chapter_descr"
-            android:layout_width="512dp"
-            android:layout_height="match_parent"></TextView>
+        <LinearLayout
+            android:id="@+id/chapter_details_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+
+            <TextView
+                android:id="@+id/chapter_descr"
+                android:layout_width="wrap_content"
+                android:text="edsjhfagfbsahfbagu"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_chapters"
+                android:gravity="bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 
 
 </FrameLayout>

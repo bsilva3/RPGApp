@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.transports.rpgtext.list_utils.main_menu.CustomAdapter;
-import com.transports.rpgtext.list_utils.main_menu.MainMenuItem;
 import com.transports.rpgtext.settings_screen.SettingsActivity;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import static com.transports.rpgtext.Constants.CHAPTER_TITLE_EXTRA;
 import static com.transports.rpgtext.Constants.MAIN_MENU_OPTS_HEADINGS;
 import static com.transports.rpgtext.Constants.MAIN_MENU_OPTS_ICONS;
 
-public class MainActivity extends AppCompatActivity implements RecyclerViewClickListener {
+public class MainActivity extends AppCompatActivity {
 
     //recyclerview objects
     private RecyclerView recyclerView;
@@ -31,20 +30,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container_view_main, MainMenuFragment.class, null)
+                    .commit();
+        }
+
         //initializing views
-        recyclerView = (RecyclerView) findViewById(R.id.main_menu_recycler_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
-        itemListener = this; // hear item menu clicks and call function in this class to handle it
+        //recyclerView = (RecyclerView) findViewById(R.id.main_menu_recycler_view);
+        //recyclerView.setHasFixedSize(true);
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
+        //itemListener = this; // hear item menu clicks and call function in this class to handle it
         //loading main menu options
-        loadRecyclerViewItem();
+        //loadRecyclerViewItem();
 
         /*ChapterLoader chapterLoader = new ChapterLoader();
         ChapterStory ch = chapterLoader.load(this, );
         Log.d("chapter", ch+"");*/
     }
 
-    private void loadRecyclerViewItem() {
+    /*private void loadRecyclerViewItem() {
         //you can fetch the data from server or some apis
         //for this tutorial I am adding some dummy data directly
         List <MainMenuItem> list = new ArrayList<>();
@@ -61,20 +67,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
         switch (heading) {
             case Constants.CONTINUE_OPT:
                 //Check saved data, if no save, show chapter selection
-                /*FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ChapterSelectionFragment fragment = new ChapterSelectionFragment();
-                fragmentTransaction.add(R.id.fragment_container, fragment);
-                fragmentTransaction.commit();*/
+
 
                 //navigate to game activity, load chapter 1 for testing
                 Intent i=new Intent(this, TextRPGActivity.class);
                 i.putExtra(CHAPTER_TITLE_EXTRA, "Chapter 01");
                 startActivity(i);
-
                 break;
             case Constants.CHAPTERS_OPT:
                 // select chapter option selected
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
                 break;
             case Constants.NEW_GAME_OPT:
                 // continue option selected
@@ -85,5 +95,5 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewClick
                 startActivity(settingsInt);
                 break;
         }
-    }
+    }*/
 }

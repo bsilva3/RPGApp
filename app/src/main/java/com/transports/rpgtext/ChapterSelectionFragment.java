@@ -5,33 +5,30 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.transports.rpgtext.list_utils.chapter_select_list.ChapterAdapter;
-import com.transports.rpgtext.list_utils.chapter_select_list.ChapterChecked;
 import com.transports.rpgtext.story_handle.ChapterDescription;
 import com.transports.rpgtext.story_handle.ChapterLoader;
-import com.transports.rpgtext.story_handle.ChapterStory;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class ChapterSelectionFragment extends Fragment {
+public class ChapterSelectionFragment extends Fragment implements ChapterAdapter.ItemClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ListView chapterList;
     private TextView chapterDescr;
+    private RecyclerView chapterListRecyclerView;
     private ChapterAdapter chapterAdapter;
     private List<ChapterDescription> chapters;
     private ChapterLoader chapterLoader;
@@ -77,22 +74,24 @@ public class ChapterSelectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chapter_selection, container, false);
-        chapterDescr = (TextView) view.findViewById(R.id.chapter_descr);
-        chapterList = (ListView) view.findViewById(R.id.list_chapters);
+        chapterDescr = view.findViewById(R.id.chapter_descr);
+        chapterListRecyclerView = view.findViewById(R.id.list_chapters);
+
+        //chapterAdapter.setClickListener(this);
+        chapterListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         //get list of chapters
-        chapterLoader = new ChapterLoader();
-        chapters = chapterLoader.getAvailableChapters(this.getActivity());
-        chapterAdapter = new ChapterAdapter(getContext(), chapters);
-        chapterList.setAdapter(chapterAdapter);
-        chapterList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                view.setSelected(true);
-            }
-        });
+        //chapterLoader = new ChapterLoader();
+        chapters = new ArrayList<>();
+        //chapters = chapterLoader.getAvailableChapters(this.getActivity());
+        chapters.add(new ChapterDescription("Test", 1, "eshgf", "ufnaiufu.json"));
+        chapters.add(new ChapterDescription("MyTest", 2, "afsdasf", "safgsdhs.json"));
+        chapterAdapter = new ChapterAdapter(chapters);
+        chapterListRecyclerView.setAdapter(chapterAdapter);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chapter_selection, container, false);
+        //return inflater.inflate(R.layout.fragment_chapter_selection, container, false);
+        return view;//!!!! <- return view created, do not inflate again!
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,9 +106,6 @@ public class ChapterSelectionFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -117,6 +113,11 @@ public class ChapterSelectionFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getContext(), "You clicked " + chapterAdapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 
     /**

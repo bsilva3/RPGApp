@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-        import android.view.LayoutInflater;
+import android.util.Log;
+import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
         import android.widget.BaseAdapter;
@@ -13,29 +14,70 @@ import android.content.Context;
         import android.widget.CompoundButton.OnCheckedChangeListener;
         import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.transports.rpgtext.R;
 import com.transports.rpgtext.story_handle.ChapterDescription;
 
-public class ChapterAdapter extends BaseAdapter {
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ViewHolder> {
     Context ctx;
     LayoutInflater lInflater;
-    List<ChapterDescription> objects;
+    List<ChapterDescription> chapters;
+    ItemClickListener mClickListener;
 
-    public ChapterAdapter(Context context, List<ChapterDescription> chapter) {
-        ctx = context;
-        objects = chapter;
-        lInflater = (LayoutInflater) ctx
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final TextView textView;
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            textView = view.findViewById(R.id.chapter_title_item);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            //if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+        }
+
+        public TextView getTextView() {
+            return textView;
+        }
+    }
+
+    public ChapterAdapter(List<ChapterDescription> chapter) {
+        this.chapters = chapter;
+        Log.d("test", "in constructor");
+    }
+
+
+    @Override
+    public ChapterAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.chapter_select_item, parent, false);
+        Log.d("test", "in view create");
+
+        return new ViewHolder(view);
     }
 
     @Override
-    public int getCount() {
-        return objects.size();
-    }
+    public void onBindViewHolder(@NonNull ChapterAdapter.ViewHolder holder, int position) {
+        Log.d("test", "in view holder bind");
+        //ChapterChecked chapterChecked = (ChapterChecked) getItem(position);
 
-    @Override
-    public Object getItem(int position) {
-        return objects.get(position);
+        holder.textView.setText(chapters.get(position).getChapterTitle());
+
+        /*CheckBox cbBuy = (CheckBox) holder.findViewById(R.id.chapter_select_box);
+        cbBuy.setOnCheckedChangeListener(myCheckChangList);
+        cbBuy.setTag(position);
+        cbBuy.setChecked(false);*/
     }
 
     @Override
@@ -44,43 +86,23 @@ public class ChapterAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = lInflater.inflate(R.layout.chapter_select_item, parent, false);
-        }
-
-        ChapterChecked chapterChecked = (ChapterChecked) getItem(position);
-
-        ((TextView) view.findViewById(R.id.chapter_descr)).setText(chapterChecked.title);
-
-        CheckBox cbBuy = (CheckBox) view.findViewById(R.id.chapter_select_box);
-        cbBuy.setOnCheckedChangeListener(myCheckChangList);
-        cbBuy.setTag(position);
-        cbBuy.setChecked(false);
-        return view;
+    public int getItemCount() {
+        return chapters.size();
     }
 
-    String getChapterTitle(int position) {
-        return ((String) getItem(position));
+    // convenience method for getting data at click position
+    public ChapterDescription getItem(int id) {
+        return chapters.get(id);
     }
 
-    ArrayList<ChapterDescription> getBox() {
-        ArrayList<ChapterDescription> box = new ArrayList<>();
-        for (ChapterDescription c : objects) {
-            if (c.box)
-                box.add(c);
-        }
-        return box;
-    }
-    ChapterDescription getChapterChecked(int position) {
-        return ((ChapterDescription) getItem(position));
+    // allows clicks events to be caught
+    void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
     }
 
-    OnCheckedChangeListener myCheckChangList = new OnCheckedChangeListener() {
-        public void onCheckedChanged(CompoundButton buttonView,
-                                     boolean isChecked) {
-            getChapterChecked((Integer) buttonView.getTag()).box = isChecked;
-        }
-    };
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
 }
