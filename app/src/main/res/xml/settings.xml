@@ -8,7 +8,7 @@
         android:summary="Change the size of the text in the game screen"
         android:title="Font Size">
 
-        <com.transports.rpgtext.settings_screen.CustomPreference
+        <com.bsilva.rpgtext.settings_screen.CustomPreference
             android:key="text_layout"
             android:layout="@layout/font_text_example_layout" />
         <androidx.preference.SeekBarPreference
